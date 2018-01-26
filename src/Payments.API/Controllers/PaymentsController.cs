@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Domain.Models;
 using Payments.Domain.Repositories;
@@ -18,9 +17,10 @@ namespace Payments.API.Controllers
         
         // GET api/payments
         [HttpGet]
-        public async Task<IEnumerable<Payment>> Get()
+        public async Task<IActionResult> GetAll()
         {
-            return await _paymentsRepository.GetAll();
+            var payments = await _paymentsRepository.GetAll();
+            return new OkObjectResult(payments);
         }
 
         // GET api/payments/5
@@ -32,7 +32,7 @@ namespace Payments.API.Controllers
             {
                 return NotFound();
             }
-            return new ObjectResult(payment);
+            return new OkObjectResult(payment);
         }
 
         // POST api/payments
@@ -51,7 +51,7 @@ namespace Payments.API.Controllers
 
         // PUT api/payments/5
         [HttpPut("{id}")]
-        public async Task <IActionResult> Update(string id, [FromBody]Payment payment)
+        public async Task<IActionResult> Update(string id, [FromBody]Payment payment)
         {
             if (payment == null || payment.Id != id)
             {

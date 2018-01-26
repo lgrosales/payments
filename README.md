@@ -16,13 +16,13 @@ Can use VS Code or Visual Studio 2017
 
 ## Things to change to make this code production ready
 
-Exception handling
-Logging
 Monitoring
 Authentication
 Replace in-memory database for a real one
+Add DTOs to avoid coupling the API contract and the DB schema
 
 ## Dependencies
 
 xUnit
+moq
 Microsoft EntityFramework
