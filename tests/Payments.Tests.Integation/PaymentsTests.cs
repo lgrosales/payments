@@ -26,6 +26,9 @@ namespace Payments.Tests.Integation
         [Fact]
         public async Task GetAllPayments()
         {
+            await CreatePayment();
+            await CreatePayment();
+
             var response = await _client.GetAsync(ApiBaseUrl);
             response.EnsureSuccessStatusCode();
 
@@ -33,18 +36,20 @@ namespace Payments.Tests.Integation
 
             var payments = JsonConvert.DeserializeObject<List<Payment>>(responseString);
 
-            Assert.NotEmpty(payments);
+            Assert.Equal(2, payments.Count);
         }
 
         [Fact]
         public async Task GetPaymentById()
         {
-            var response = await _client.GetAsync($"{ApiBaseUrl}/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43");
+            var paymentId = await CreatePayment();
+
+            var response = await _client.GetAsync($"{ApiBaseUrl}/{paymentId}");
             response.EnsureSuccessStatusCode();
             
             var payment = await DeserializePayment(response.Content);
 
-            Assert.Equal("4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43", payment.Id);
+            Assert.Equal(paymentId, payment.Id);
         }
 
         [Fact]
@@ -105,13 +110,15 @@ namespace Payments.Tests.Integation
         [Fact]
         public async Task DeletePayment()
         {
-            var responseGet1 = await _client.GetAsync($"{ApiBaseUrl}/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43");
+            var paymentId = await CreatePayment();
+
+            var responseGet1 = await _client.GetAsync($"{ApiBaseUrl}/{paymentId}");
             responseGet1.EnsureSuccessStatusCode();
 
-            var responseDelete = await _client.DeleteAsync($"{ApiBaseUrl}/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43");
+            var responseDelete = await _client.DeleteAsync($"{ApiBaseUrl}/{paymentId}");
             responseDelete.EnsureSuccessStatusCode();
 
-            var responseGet2 = await _client.GetAsync($"{ApiBaseUrl}/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43");
+            var responseGet2 = await _client.GetAsync($"{ApiBaseUrl}/{paymentId}");
 
             Assert.Equal(HttpStatusCode.NotFound, responseGet2.StatusCode);
         }
@@ -128,6 +135,22 @@ namespace Payments.Tests.Integation
             var responseString = await httpContent.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<Payment>(responseString);
+        }
+
+        private async Task<string> CreatePayment()
+        {
+            var paymentId = Guid.NewGuid().ToString();
+
+            var payment = new Payment
+            {
+                Id = paymentId
+            };
+
+            var httpContent = SerializePayment(payment);
+
+            await _client.PostAsync(ApiBaseUrl, httpContent);
+
+            return paymentId;
         }
     }
 }
