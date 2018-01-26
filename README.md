@@ -6,18 +6,21 @@
 
 ## How to run
 
-1. cd /src/Payments.API
-2. dotnet run 
+1. cd {checkout_dir}/src/Payments.API
+2. dotnet run
 3. navigate to /swagger
 4. have fun!
 
+## How to run the tests
+
+1. cd {checkout_dir}/
+2. dotnet test
 
 ## IDE
 
 Can use VS Code or Visual Studio 2017
 
-
-## Things to change to make this code production ready
+## A few things to change:
 
 * Monitoring
 * Authentication
