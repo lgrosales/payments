@@ -29,4 +29,5 @@ Can use VS Code or Visual Studio 2017
 * xUnit
 * moq
 * swagger
-* Microsoft EntityFramework
+* Microsoft.EntityFrameworkCore
+* Microsoft.AspNetCore.TestHost
