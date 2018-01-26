@@ -5,6 +5,6 @@ namespace Payments.Domain.Models
         public string Id { get; set; }
         public int Version { get; set; }
         public string OrganisationId { get; set; }
-        // public PaymentAttributes Attributes {get; set; }
+        public PaymentAttributes Attributes {get; set; }
     }
 }

@@ -2,6 +2,7 @@ namespace Payments.Domain.Models
 {
     public class Party
     {
+        public string Id { get; set; }
         public string AccountName { get; set; }
         public string AccountNumber { get; set; }
         public string AccountNumberCode { get; set; }

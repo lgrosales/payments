@@ -2,6 +2,7 @@ namespace Payments.Domain.Models
 {
     public class PaymentAttributes
     {
+        public string Id { get; set; }
         public string Amount { get; set; }
         public Party BeneficiaryParty { get; set; }
         public ChargesInformation ChargesInformation { get; set; }
