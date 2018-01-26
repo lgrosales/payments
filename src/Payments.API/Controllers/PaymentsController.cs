@@ -31,7 +31,7 @@ namespace Payments.API.Controllers
             {
                 return NotFound();
             }
-            return new ObjectResult(payment);
+            return new pObjectResult(payment);
         }
 
         // POST api/payments
