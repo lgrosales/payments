@@ -9,7 +9,7 @@
 1. cd {checkout_dir}/src/Payments.API
 2. dotnet run
 3. navigate to /swagger
-4. have fun!
+4. hit it!
 
 ## How to run the tests
 
@@ -22,15 +22,14 @@ Can use VS Code or Visual Studio 2017
 
 ## A few things to change:
 
-* Monitoring
 * Authentication
-* Replace in-memory database for a real one
-* Add DTOs to avoid coupling the API contract and the DB schema
+* Add DTOs to avoid coupling the API contract with the DB schema
+* Monitoring
 
 ## Dependencies
 
 * xUnit
 * moq
 * swagger
-* Microsoft.EntityFrameworkCore
+* Microsoft.EntityFrameworkCore.Sqlite
 * Microsoft.AspNetCore.TestHost
