@@ -1,14 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Payments.Domain.Models;
 
 namespace Payments.Domain
 {
-    public static class DataBootstrapper
+    public static class SeedData
     {
-        public static List<Payment> GetPayments()
+        public static void Initialize(IServiceProvider serviceProvider)
         {
-            return new List<Payment>()
+            using (var context = new PaymentsContext(
+                serviceProvider.GetRequiredService<DbContextOptions<PaymentsContext>>()))
+            {
+                context.Database.EnsureCreated();
+
+                if (context.Payments.Any())
                 {
+                    return; 
+                }
+
+                context.Payments.AddRange(
                     new Payment
                     {
                         Id = "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
@@ -141,7 +154,9 @@ namespace Payments.Domain
                             }
                         }
                     }
-                };
+                );
+                context.SaveChanges();
+            }
         }
     }
 }

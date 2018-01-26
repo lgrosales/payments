@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,18 +16,6 @@ namespace Payments.Domain.Repositories
         {
             _paymentsContext = paymentsContext;
             _logger = logger;
-
-            InitialiseDbData();
-        }
-
-        private void InitialiseDbData()
-        {
-            if (!_paymentsContext.Payments.Any())
-            {
-                var payments = DataBootstrapper.GetPayments();
-                _paymentsContext.Payments.AddRange(payments);
-                _paymentsContext.SaveChanges();
-            }
         }
 
         public Task Add(Payment payment)
