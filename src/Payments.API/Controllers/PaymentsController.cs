@@ -1,43 +1,37 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Models;
+using Payments.Repositories;
 
 namespace Payments.API.Controllers
 {
     [Route("api/[controller]")]
     public class PaymentsController : Controller
     {
+        private readonly IPaymentsRepository _paymentsRepository;
+
+        public PaymentsController(IPaymentsRepository paymentsRepository)
+        {
+            _paymentsRepository = paymentsRepository;
+        }
+        
         // GET api/payments
         [HttpGet]
         public IEnumerable<Payment> Get()
         {
-            return new List<Payment>() 
-            { 
-                new Payment 
-                {
-                    Id = "id",
-                    Version = 0,
-                    OrganisationId = "orgId"
-                },
-                new Payment 
-                {
-                    Id = "id2",
-                    Version = 0,
-                    OrganisationId = "orgId2"
-                }
-            };
+            return _paymentsRepository.GetAll();
         }
 
         // GET api/payments/5
         [HttpGet("{id}")]
-        public Payment Get(int id)
+        public IActionResult Get(string id)
         {
-            return new Payment 
+            var payment = _paymentsRepository.Get(id);
+            if (payment == null)
             {
-                Id = "id",
-                Version = 0,
-                OrganisationId = "orgId"
-            };
+                return NotFound();
+            }
+            return new ObjectResult(payment);
         }
 
         // POST api/payments
@@ -48,13 +42,13 @@ namespace Payments.API.Controllers
 
         // PUT api/payments/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Payment value)
+        public void Put(string id, [FromBody]Payment value)
         {
         }
 
         // DELETE api/payments/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
         }
     }

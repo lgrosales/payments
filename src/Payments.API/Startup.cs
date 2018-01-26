@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payments.Models;
+using Payments.Repositories;
 
 namespace Payments.API
 {
@@ -20,7 +21,10 @@ namespace Payments.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PaymentsContext>(opt => opt.UseInMemoryDatabase("Payments"));
+
             services.AddMvc();
+
+            services.AddScoped<IPaymentsRepository, PaymentsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
