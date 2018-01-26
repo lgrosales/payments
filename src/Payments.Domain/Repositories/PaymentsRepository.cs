@@ -104,7 +104,7 @@ namespace Payments.Domain.Repositories
         {
             try
             {
-                var entity = _paymentsContext.Payments.FindAsync(payment.Id);
+                var entity = Get(payment.Id).Result;
                 _paymentsContext.Entry(entity).CurrentValues.SetValues(payment);
 
                 return _paymentsContext.SaveChangesAsync();

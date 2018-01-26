@@ -8,7 +8,8 @@
 
 cd /src/Payments.API
 dotnet run 
-open Swagger
+navigate to /swagger
+have fun!
 
 ## IDE
 
@@ -25,4 +26,5 @@ Add DTOs to avoid coupling the API contract and the DB schema
 
 xUnit
 moq
+swagger
 Microsoft EntityFramework
