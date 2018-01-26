@@ -25,22 +25,7 @@ namespace Payments.Domain.Repositories
         {
             if (!_paymentsContext.Payments.Any())
             {
-                var payments = new List<Payment>() 
-                { 
-                    new Payment 
-                    {
-                        Id = "id1",
-                        Version = 0,
-                        OrganisationId = "orgId"
-                    },
-                    new Payment 
-                    {
-                        Id = "id2",
-                        Version = 0,
-                        OrganisationId = "orgId2"
-                    }
-                };
-
+                var payments = DataBootstrapper.GetPayments();
                 _paymentsContext.Payments.AddRange(payments);
                 _paymentsContext.SaveChanges();
             }
@@ -78,7 +63,19 @@ namespace Payments.Domain.Repositories
         {
             try
             {
-                return _paymentsContext.Payments.FirstOrDefaultAsync(t => t.Id == id);
+                return _paymentsContext.Payments
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.BeneficiaryParty)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.ChargesInformation)
+                        .ThenInclude(inf => inf.SenderCharges)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.DebtorParty)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.Fx)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.SponsorParty)
+                    .FirstOrDefaultAsync(t => t.Id == id);
             }
             catch (Exception ex)
             {
@@ -91,7 +88,19 @@ namespace Payments.Domain.Repositories
         {
             try
             {
-                return _paymentsContext.Payments.ToListAsync();
+                return _paymentsContext.Payments
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.BeneficiaryParty)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.ChargesInformation)
+                        .ThenInclude(inf => inf.SenderCharges)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.DebtorParty)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.Fx)
+                    .Include(p => p.Attributes)
+                        .ThenInclude(att => att.SponsorParty)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
