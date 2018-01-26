@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Payments.Domain.Models;
 
 namespace Payments.Domain.Repositories
@@ -40,32 +42,32 @@ namespace Payments.Domain.Repositories
             }
         }
 
-        public void Add(Payment payment)
+        public Task Add(Payment payment)
         {
-            _paymentsContext.Payments.Add(payment);
-            _paymentsContext.SaveChanges();
+           _paymentsContext.Payments.Add(payment);
+           return  _paymentsContext.SaveChangesAsync();
         }
 
-        public void Delete(Payment payment)
+        public Task Delete(Payment payment)
         {
             _paymentsContext.Payments.Remove(payment);
-            _paymentsContext.SaveChanges();
+            return _paymentsContext.SaveChangesAsync();
         }
 
-        public Payment Get(string id)
+        public Task<Payment> Get(string id)
         {
-            return _paymentsContext.Payments.FirstOrDefault(t => t.Id == id);
+            return _paymentsContext.Payments.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public IEnumerable<Payment> GetAll()
+        public Task<List<Payment>> GetAll()
         {
-            return _paymentsContext.Payments.ToList();
+            return _paymentsContext.Payments.ToListAsync();
         }
 
-        public void Update(Payment payment)
+        public Task Update(Payment payment)
         {
             _paymentsContext.Payments.Update(payment);
-            _paymentsContext.SaveChanges();
+            return _paymentsContext.SaveChangesAsync();
         }
     }
 }

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Payments.Domain.Models;
 
 namespace Payments.Domain.Repositories
 {
     public interface IPaymentsRepository
     {
-        Payment Get(string id);
-        IEnumerable<Payment> GetAll();
-        void Add(Payment payment);
-        void Update(Payment payment);
-        void Delete(Payment payment);
+        Task<Payment> Get(string id);
+        Task<List<Payment>> GetAll();
+        Task Add(Payment payment);
+        Task Update(Payment payment);
+        Task Delete(Payment payment);
     }
 }

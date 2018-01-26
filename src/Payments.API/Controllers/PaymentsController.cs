@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Domain.Models;
 using Payments.Domain.Repositories;
@@ -17,16 +18,16 @@ namespace Payments.API.Controllers
         
         // GET api/payments
         [HttpGet]
-        public IEnumerable<Payment> Get()
+        public async Task<IEnumerable<Payment>> Get()
         {
-            return _paymentsRepository.GetAll();
+            return await _paymentsRepository.GetAll();
         }
 
         // GET api/payments/5
         [HttpGet("{id}", Name = "GetPaymentRoute")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var payment = _paymentsRepository.Get(id);
+            var payment = await _paymentsRepository.Get(id);
             if (payment == null)
             {
                 return NotFound();
@@ -36,28 +37,51 @@ namespace Payments.API.Controllers
 
         // POST api/payments
         [HttpPost]
-        public IActionResult Create([FromBody]Payment payment)
+        public async Task<IActionResult> Create([FromBody]Payment payment)
         {
             if (payment == null)
             {
                 return BadRequest();
             }
 
-            _paymentsRepository.Add(payment);
+            await _paymentsRepository.Add(payment);
 
             return CreatedAtRoute("GetPaymentRoute", new { id = payment.Id }, payment);
         }
 
         // PUT api/payments/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]Payment value)
+        public async Task <IActionResult> Update(string id, [FromBody]Payment payment)
         {
+            if (payment == null || payment.Id != id)
+            {
+                return BadRequest();
+            }
+
+            if (await _paymentsRepository.Get(id) == null)
+            {
+                return NotFound();
+            }
+
+            await _paymentsRepository.Update(payment);
+            
+            return new NoContentResult();
         }
 
         // DELETE api/payments/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
+            var payment = await _paymentsRepository.Get(id);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            await _paymentsRepository.Delete(payment);
+
+            return new NoContentResult();
         }
     }
 }
