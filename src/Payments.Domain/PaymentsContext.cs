@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Payments.Domain.Models;
 
-namespace Payments.Models
+namespace Payments.Domain
 {
     public class PaymentsContext : DbContext
     {
-        public PaymentsContext(DbContextOptions<PaymentsContext> options)
+        public PaymentsContext(DbContextOptions options)
             : base(options)
         {
         }

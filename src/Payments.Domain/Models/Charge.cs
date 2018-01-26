@@ -1,4 +1,4 @@
-namespace Payments.Models
+namespace Payments.Domain.Models
 {
     public class Charge
     {

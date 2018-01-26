@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Payments.Models;
+using Payments.Domain.Models;
 
-namespace Payments.Repositories
+namespace Payments.Domain.Repositories
 {
     public interface IPaymentsRepository
     {

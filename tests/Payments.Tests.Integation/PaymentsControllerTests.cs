@@ -1,11 +1,6 @@
-namespace Payments.Tests.API
+namespace Payments.Tests.Integation
 {
     public class PaymentsControllerTests
     {
-        [Fact]
-        public async Task TestGet()
-        {
-            
-        }
     }
 }

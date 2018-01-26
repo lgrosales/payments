@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Payments.Models
+namespace Payments.Domain.Models
 {
     public class ChargesInformation
     {

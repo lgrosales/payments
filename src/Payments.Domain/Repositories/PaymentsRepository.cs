@@ -1,9 +1,8 @@
-using Payments.Models;
-using System.Linq;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using Payments.Domain.Models;
 
-namespace Payments.Repositories
+namespace Payments.Domain.Repositories
 {
     public class PaymentsRepository : IPaymentsRepository
     {
@@ -18,7 +17,7 @@ namespace Payments.Repositories
 
         private void InitialiseDbData()
         {
-            if (_paymentsContext.Payments.Count() == 0)
+            if (!_paymentsContext.Payments.Any())
             {
                 var payments = new List<Payment>() 
                 { 

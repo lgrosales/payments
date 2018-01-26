@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Payments.Models;
-using Payments.Repositories;
+using Payments.Domain.Models;
+using Payments.Domain.Repositories;
 
 namespace Payments.API.Controllers
 {
@@ -23,7 +23,7 @@ namespace Payments.API.Controllers
         }
 
         // GET api/payments/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetPaymentRoute")]
         public IActionResult Get(string id)
         {
             var payment = _paymentsRepository.Get(id);
@@ -31,13 +31,21 @@ namespace Payments.API.Controllers
             {
                 return NotFound();
             }
-            return new pObjectResult(payment);
+            return new ObjectResult(payment);
         }
 
         // POST api/payments
         [HttpPost]
-        public void Post([FromBody]Payment value)
+        public IActionResult Create([FromBody]Payment payment)
         {
+            if (payment == null)
+            {
+                return BadRequest();
+            }
+
+            _paymentsRepository.Add(payment);
+
+            return CreatedAtRoute("GetPaymentRoute", new { id = payment.Id }, payment);
         }
 
         // PUT api/payments/5

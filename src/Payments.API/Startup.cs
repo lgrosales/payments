@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Payments.Models;
-using Payments.Repositories;
+using Payments.Domain;
+using Payments.Domain.Repositories;
 
 namespace Payments.API
 {
