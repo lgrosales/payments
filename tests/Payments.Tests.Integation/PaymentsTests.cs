@@ -19,7 +19,7 @@ namespace Payments.Tests.Integation
 
         public PaymentsApiShould()
         {
-            var server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            var server = new TestServer(new WebHostBuilder().UseStartup<TestsStartup>());
             _client = server.CreateClient();
         }
 

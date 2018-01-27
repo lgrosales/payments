@@ -21,7 +21,7 @@ namespace Payments.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PaymentsContext>(opt => opt.UseSqlite("Data Source=data/payments.db"));
+            services.AddDbContext<PaymentsContext>(opt => opt.UseSqlite("Data Source=payments.db"));
 
             services.AddMvc();
 

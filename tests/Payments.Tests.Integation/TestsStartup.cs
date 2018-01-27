@@ -8,9 +8,9 @@ using Payments.Domain.Repositories;
 
 namespace Payments.Tests.Integation
 {
-    public class Startup
+    public class TestsStartup
     {
-        public Startup(IConfiguration configuration)
+        public TestsStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
