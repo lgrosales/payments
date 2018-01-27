@@ -16,15 +16,21 @@
 1. cd {checkout_dir}/
 2. dotnet test
 
+## Persistence
+
+A local SqLite DB is created in the first run and a seed function is executed to populate initial data.
+
+The integration tests run an in-memory database.
+
 ## IDE
 
 Can use VS Code or Visual Studio 2017
 
-## A few things to change:
+## A few things that are missing
 
 * Authentication
-* Add DTOs to avoid coupling the API contract with the DB schema
-* Add a service layer with buisiness logic between the controller and repository 
+* DTOs to avoid coupling the API contract with the DB schema
+* A service layer with buisiness logic between the controller and repository
 * Monitoring
 
 ## Dependencies
