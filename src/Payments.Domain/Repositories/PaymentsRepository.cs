@@ -96,14 +96,38 @@ namespace Payments.Domain.Repositories
             }
         }
 
-        public Task Update(Payment payment)
+        public async Task Update(Payment payment)
         {
             try
             {
-                var entity = Get(payment.Id).Result;
-                _paymentsContext.Entry(entity).CurrentValues.SetValues(payment);
+                var paymentEntity = Get(payment.Id).Result;
+                _paymentsContext
+                    .Entry(paymentEntity)
+                    .CurrentValues
+                    .SetValues(payment);
 
-                return _paymentsContext.SaveChangesAsync();
+                if (paymentEntity.Attributes != null)
+                { 
+                    var paymentAttributesEntity = await _paymentsContext.PaymentAttributes
+                        .FirstOrDefaultAsync(att => att.Id == paymentEntity.Attributes.Id);
+                    payment.Attributes.Id = paymentAttributesEntity.Id;
+                    _paymentsContext
+                        .Entry(paymentAttributesEntity)
+                        .CurrentValues
+                        .SetValues(payment.Attributes);
+                
+                    var beneficiaryPartyEntity = await _paymentsContext.Party
+                        .FirstOrDefaultAsync(p => p.Id == paymentEntity.Attributes.BeneficiaryParty.Id);
+                    payment.Attributes.BeneficiaryParty.Id = beneficiaryPartyEntity.Id;
+                    _paymentsContext
+                        .Entry(beneficiaryPartyEntity)
+                        .CurrentValues
+                        .SetValues(payment.Attributes.BeneficiaryParty);
+
+                    // Update all the other value objects
+                }
+
+                await _paymentsContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

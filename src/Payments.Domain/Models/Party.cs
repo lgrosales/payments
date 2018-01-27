@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
+
 namespace Payments.Domain.Models
 {
     public class Party
     {
+        [JsonIgnore]
         public string Id { get; set; }
         public string AccountName { get; set; }
         public string AccountNumber { get; set; }
