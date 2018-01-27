@@ -8,7 +8,7 @@
 
 1. cd {checkout_dir}/src/Payments.API
 2. dotnet run
-3. navigate to /swagger
+3. navigate to http://localhost:{port}/swagger
 4. hit it!
 
 ## How to run the tests
@@ -24,6 +24,7 @@ Can use VS Code or Visual Studio 2017
 
 * Authentication
 * Add DTOs to avoid coupling the API contract with the DB schema
+* Add a service layer with buisiness logic between the controller and repository 
 * Monitoring
 
 ## Dependencies
